@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ScamShield AI – Fake Job & Scam Detector</title>
+<style>
+:root{--navy:#0a1f44;--navy2:#1a3a73;--teal:#14b8a6;--bg:#f4f7fb;--card:#fff;--tx:#14213d;--mut:#5b6785;--bd:#dbe3ef;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef4fb;--mk:#fecaca;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1226;--card:#13203f;--tx:#e8eefb;--mut:#9fb0d0;--bd:#25365e;--soft:#0f1b36;--mk:#7f1d1d}}
+:root[data-theme="dark"]{--bg:#0a1226;--card:#13203f;--tx:#e8eefb;--mut:#9fb0d0;--bd:#25365e;--soft:#0f1b36;--mk:#7f1d1d}
+*{box-sizing:border-box}html{scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--navy);display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:8px;flex-wrap:wrap}
+.logo{color:#fff;font-weight:800;font-size:18px;cursor:pointer}.logo b{color:var(--teal)}
+nav{display:flex;gap:3px;flex-wrap:wrap}nav button{background:none;border:0;color:#cfe0f5;padding:7px 11px;border-radius:8px;font:inherit;cursor:pointer}nav button.on{background:var(--teal);color:var(--navy);font-weight:600}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;text-align:center;padding:64px 20px}
+.hero h1{font-size:clamp(34px,7vw,58px);margin:0}.hero h1 b{color:var(--teal)}.hero .tag{color:var(--teal);font-size:20px;margin:8px 0 14px}.hero p{max-width:640px;margin:0 auto 24px;color:#d6e2f3}
+.btn{font:inherit;border:0;border-radius:10px;padding:10px 22px;font-weight:600;cursor:pointer;background:var(--navy);color:#fff;transition:.2s}.btn:hover{transform:translateY(-2px)}
+.btn.t{background:var(--teal);color:var(--navy)}.btn.o{background:none;border:1px solid var(--bd);color:var(--tx)}.btn.d{background:none;color:var(--bad);padding:6px 10px}.btn.s{padding:5px 12px;font-size:13px}
+main{max-width:1020px;margin:0 auto;padding:26px 18px}
+h2{margin:0 0 12px}.c{text-align:center}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media(max-width:760px){.g3,.g2,.g4{grid-template-columns:1fr 1fr}.g2.r{grid-template-columns:1fr}}@media(max-width:520px){.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;box-shadow:0 2px 8px #0a1f4414;animation:up .4s both}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.num{width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:700;margin-bottom:6px}
+.disc{background:#fef3c7;color:#78350f;border-radius:12px;padding:14px;font-size:13px;margin-top:26px}
+label{display:block;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+input,textarea,select{width:100%;margin-top:4px;font:inherit;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--teal)}textarea{min-height:160px;resize:vertical}
+.err{color:var(--bad);font-size:12px;text-transform:none;font-weight:400}.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.full{grid-column:1/-1}
+.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{flex:1}
+.f{border-left:4px solid var(--bad);background:var(--soft);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:14px}.f.g{border-color:var(--ok)}.f small{display:block;color:var(--mut)}.f code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin:3px 0 10px}.bar i{display:block;height:100%;background:var(--teal)}
+.badge{color:#fff;border-radius:99px;padding:3px 12px;font-size:12px;font-weight:700;display:inline-block}.chip{background:var(--soft);border:1px solid var(--bd);border-radius:99px;padding:3px 10px;font-size:12px;margin:2px;display:inline-block}
+.note{background:var(--soft);border-radius:10px;padding:12px;font-size:12px;color:var(--mut);margin-top:14px}
+.hi{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hide{display:none}.toast{background:#fee2e2;color:#991b1b;padding:10px;border-radius:8px;margin-bottom:12px}
+mark{background:var(--mk);color:inherit;border-radius:3px;padding:0 2px}.hl{white-space:pre-wrap;font-size:14px;max-height:220px;overflow:auto}
+.stat{text-align:center}.stat b{display:block;font-size:26px}.cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px;text-align:center;font-size:13px;max-width:320px}.cm div{padding:10px;background:var(--soft);border-radius:6px}
+td,th{padding:8px;text-align:left;font-size:13px}footer{text-align:center;color:var(--mut);font-size:12px;padding:22px}li{margin:4px 0}
+@media print{header,footer,.btn,.row,.tabs{display:none!important}}
+</style></head><body>
+<header><div class="logo" onclick="go('home')">🛡️ ScamShield <b>AI</b></div>
+<nav><button data-p="home" class="on">Home</button><button data-p="analyze">Job Check</button><button data-p="scam">Scam Check</button><button data-p="tools">Tools</button><button data-p="dash">Dashboard</button><button data-p="model">Model</button><button data-p="learn">Learn</button><button id="th" title="Theme">🌓</button></nav></header>
+
+<section id="home">
+<div class="hero"><h1>ScamShield <b>AI</b></h1><div class="tag">Detect Fake Jobs & Online Scams. Protect Yourself.</div>
+<p>Fake job offers and online scams (phishing, OTP theft, lottery, loan apps, digital arrest, UPI refunds) all use the same tricks. ScamShield AI is one project with two detectors: a <b>Fake Job Detector</b> and a <b>Scam Message Detector</b>, each with its own ML model and rules.</p>
+<button class="btn t" onclick="go('analyze')">💼 Analyze a Job</button> <button class="btn t" style="background:#fff" onclick="go('scam')">💬 Scan a Message</button></div>
+<main><h2 class="c">How It Works</h2><div class="g3">
+<div class="card"><div class="num">1</div><b>Enter job details</b><p>Paste a full ad, a WhatsApp message, or fill the form. Load any of 12 samples.</p></div>
+<div class="card"><div class="num">2</div><b>Analyze suspicious patterns</b><p>A Naive Bayes model plus scam rules and domain checks inspect the text, links and contacts.</p></div>
+<div class="card"><div class="num">3</div><b>View prediction & safety steps</b><p>Risk score, scam type, highlighted phrases and what to do next.</p></div></div>
+<h2 class="c" style="margin-top:34px">Advanced Features</h2><div class="g3">
+<div class="card">🧠 <b>Live ML model</b><p>Trained in your browser on a 300-post dataset, with precision, recall, F1 and a confusion matrix.</p></div>
+<div class="card">🖍️ <b>Phrase highlighting</b><p>Suspicious wording is marked directly in the text.</p></div>
+<div class="card">🏷️ <b>Scam-type detection</b><p>Advance-fee, data theft, task, MLM or cheque scam.</p></div>
+<div class="card">🌐 <b>Domain & link analysis</b><p>Free email, odd TLDs, hyphen-heavy, IP and shortened links.</p></div>
+<div class="card">📊 <b>Dashboard</b><p>Stats, score trend, CSV export, history management.</p></div>
+<div class="card">🎯 <b>Spot-the-scam quiz</b><p>Practice on 12 realistic samples and check yourself.</p></div><div class="card">⚖️ <b>Compare & batch scan</b><p>Put two offers side by side or scan up to 25 postings at once.</p></div><div class="card">✅ <b>Verify & report</b><p>A 10-point verification checklist and a ready-to-send complaint draft.</p></div><div class="card">🎓 <b>Teach the model</b><p>Correct a wrong verdict and the ML model learns from you instantly.</p></div><div class="card">💬 <b>Scam message detector</b><p>Phishing, OTP theft, lottery, loan apps, digital arrest, UPI refund and more.</p></div><div class="card">🧩 <b>Smart Scan</b><p>Paste anything. It is checked as a scam message and, if it mentions a job, as a job offer too.</p></div><div class="card">🔗 <b>Brand-vs-link check</b><p>Flags a message that names a bank or brand but links somewhere else.</p></div></div>
+<div class="disc"><b>Disclaimer:</b> Results are AI-generated risk assessments, not guaranteed verification. The ML model is trained on a <b>synthetic demo dataset</b> and its scores are uncalibrated. Always verify employers independently.</div></main></section>
+
+<section id="analyze" class="hide"><main><h2>Analyze a Job</h2>
+<div class="tabs"><button class="btn t" id="tf">Full Job Form</button><button class="btn o" id="tq">Quick Message Scan</button></div>
+<div class="row" style="margin:0 0 12px"><label style="display:flex;align-items:center;gap:8px;margin:0">Load sample:<select id="sel" style="width:auto;margin:0"></select></label></div>
+<div id="toast"></div>
+<div class="card g2 r">
+<div class="q"><label>Job Title *<input id="title"><span class="err" id="e_title"></span></label></div>
+<div class="q"><label>Company Name<input id="company"></label></div>
+<div class="q"><label>Company Website (optional)<input id="site" placeholder="https://"></label></div>
+<div class="q"><label>Recruiter Email (optional)<input id="email"><span class="err" id="e_email"></span></label></div>
+<div class="full"><label><span id="dl">Job Description / Recruitment Message *</span><textarea id="desc"></textarea><span class="err" id="e_desc"></span></label></div>
+<div class="full q"><label>Required Qualifications<input id="qual"></label></div>
+<div class="q"><label>Salary or Compensation<input id="sal"></label></div>
+<div class="q"><label>Employment Type<select id="type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option><option>Freelance</option></select></label></div>
+<div class="q"><label>Job Location<input id="loc"></label></div>
+<div class="q"><label>Application URL (optional)<input id="url"></label></div>
+<div class="full row" style="margin-top:0"><button class="btn" id="go">Analyze Job</button><button class="btn o" id="clr">Clear Form</button><button class="btn o" id="smp">Load Random Sample</button></div></div></main></section>
+
+<section id="result" class="hide"><main id="rbody"></main></section>
+
+<section id="scam" class="hide"><main><h2>Scam Check</h2><p style="color:var(--mut);margin-top:-6px">Paste any SMS, WhatsApp, email or call script. Smart Scan checks it as a scam message and, if it mentions a job, as a job offer as well.</p>
+<div class="row" style="margin:0 0 12px"><label style="display:flex;align-items:center;gap:8px;margin:0">Load sample:<select id="ssel" style="width:auto;margin:0"></select></label></div>
+<div class="card g2 r"><div class="full"><label>Message *<textarea id="sm_text"></textarea><span class="err" id="se_text"></span></label></div><div><label>Sender (number / email, optional)<input id="sm_sender"></label></div><div><label>Link (optional)<input id="sm_url" placeholder="https://"></label></div>
+<div class="full row" style="margin:0"><button class="btn" id="sgo">Scan Message</button><button class="btn o" id="sclr">Clear</button><button class="btn o" id="srnd">Random sample</button></div></div></main></section>
+<section id="tools" class="hide"><main><h2>Tools</h2>
+<div class="tabs" style="flex-wrap:wrap"><button class="btn t" id="tb-cmp" onclick="tt('cmp')">⚖️ Compare</button><button class="btn o" id="tb-bat" onclick="tt('bat')">📚 Batch scan</button><button class="btn o" id="tb-ver" onclick="tt('ver')">✅ Verify employer</button><button class="btn o" id="tb-rep" onclick="tt('rep')">📝 Complaint draft</button></div>
+<div id="tp-cmp"><p style="color:var(--mut)">Paste two job offers to see which one looks safer.</p><div class="g2 r"><div><label>Posting A<textarea id="ca"></textarea></label></div><div><label>Posting B<textarea id="cb"></textarea></label></div></div><div class="row"><button class="btn" onclick="cmp()">Compare</button><button class="btn o" onclick="cmpDemo()">Load demo pair</button></div><div id="cout" style="margin-top:14px"></div></div>
+<div id="tp-bat" class="hide"><p style="color:var(--mut)">Paste up to 25 postings, separated by a line containing <code>---</code>.</p><textarea id="bt" style="min-height:200px"></textarea><div class="row"><button class="btn" onclick="batch()">Scan all</button><button class="btn o" onclick="batDemo()">Load demo batch</button></div><div id="bout" style="margin-top:14px"></div></div>
+<div id="tp-ver" class="hide"><p style="color:var(--mut)">Tick what <b>you have personally confirmed</b> about this employer.</p><div class="card" id="vlist"></div><div id="vres" class="card" style="margin-top:12px"></div></div>
+<div id="tp-rep" class="hide"><p style="color:var(--mut)">Draft a complaint for cybercrime.gov.in or your local cyber cell. Nothing is sent or stored.</p><div class="card g2 r"><div><label>Your name<input id="rn"></label></div><div><label>Company / recruiter name<input id="rc"></label></div><div><label>Fraudster contact (phone / email / link)<input id="rt"></label></div><div><label>Where you found it<input id="rp" placeholder="LinkedIn, WhatsApp, Instagram..."></label></div><div><label>Date<input id="rd" type="date"></label></div><div><label>Amount paid / data shared<input id="ra"></label></div><div class="full"><label>What happened<textarea id="rx" style="min-height:100px"></textarea></label></div><div class="full row" style="margin:0"><button class="btn" onclick="rep()">Generate draft</button></div></div><textarea id="rout" style="min-height:260px;margin-top:12px" placeholder="Your draft appears here. Select all and copy."></textarea></div>
+</main></section>
+<section id="dash" class="hide"><main><h2>Dashboard & History</h2><div id="dbody"></div>
+<div id="share" class="card hide" style="margin-top:14px"><b>Copy this text:</b><textarea id="shareta" style="min-height:120px"></textarea></div></main></section>
+
+<section id="model" class="hide"><main id="mbody"></main></section>
+
+<section id="learn" class="hide"><main><h2>Learn: Common Job Scams</h2><div class="g3" id="types"></div>
+<h2 style="margin-top:28px">Practice: Spot the Scam</h2><div class="card" id="quiz"></div>
+<h2 style="margin-top:28px">If you were targeted</h2><div class="card"><ol><li>Stop all contact and do not pay anything more.</li><li>Keep screenshots, numbers, emails and payment receipts.</li><li>Tell your bank immediately if you paid or shared card/bank details.</li><li>Report: cybercrime.gov.in or call <b>1930</b> (India); use your local cybercrime authority elsewhere.</li><li>Warn your college placement cell and friends.</li></ol></div></main></section>
+<footer>ScamShield AI · AI-generated risk assessments, not guaranteed verification.</footer>
+
+<script>
+const DS=__DATA__; const SAMPLES=__SAMPLES__; const SDS=__SDATA__,SSAMPLES=__SSAMPLES__,SR=__SRULES__;
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COL={Low:'var(--ok)',Medium:'var(--warn)',High:'var(--bad)'},FREE=/@(gmail|yahoo|ymail|hotmail|outlook|rediffmail|protonmail|aol|live|icloud)\./i;
+/* ---------- ML: multinomial Naive Bayes (trained in browser) ---------- */
+const STOP=new Set('the and for are you your with will our this that from have has not can all any who per its'.split(' '));
+const tok=t=>{const w=t.toLowerCase().replace(/[^a-z0-9₹$% ]/g,' ').split(/\s+/).filter(x=>x.length>1&&!STOP.has(x));const b=[];for(let i=0;i<w.length-1;i++)b.push(w[i]+'_'+w[i+1]);return[...new Set(w.concat(b))]};
+const NB={cnt:[new Map(),new Map()],tot:[0,0],docs:[0,0],V:0};
+function nbTrain(rows){rows.forEach(([t,y])=>{NB.docs[y]++;tok(t).forEach(w=>{NB.cnt[y].set(w,(NB.cnt[y].get(w)||0)+1);NB.tot[y]++})});NB.V=new Set([...NB.cnt[0].keys(),...NB.cnt[1].keys()]).size}
+const lp=(w,y)=>Math.log(((NB.cnt[y].get(w)||0)+1)/(NB.tot[y]+NB.V));
+function nbPredict(t){const ws=tok(t);let z=Math.log((NB.docs[1]+1)/(NB.docs[0]+1));const c=[];ws.forEach(w=>{const d=lp(w,1)-lp(w,0);z+=d;c.push([d,w])});
+ c.sort((a,b)=>b[0]-a[0]);return{p:1/(1+Math.exp(-z/6)),terms:c.filter(x=>x[0]>.8).slice(0,6).map(x=>x[1].replace('_',' '))}}
+const train=DS.filter((_,i)=>i%5),test=DS.filter((_,i)=>!(i%5));nbTrain(train);
+const MET=(()=>{let tp=0,fp=0,fn=0,tn=0;test.forEach(([t,y])=>{const p=nbPredict(t).p>=.5?1:0;if(y&&p)tp++;else if(!y&&p)fp++;else if(y&&!p)fn++;else tn++});const pr=tp/(tp+fp||1),rc=tp/(tp+fn||1);return{tp,fp,fn,tn,pr,rc,f1:2*pr*rc/(pr+rc||1),acc:(tp+tn)/test.length}})();
+const UK='jsai_user',UD=()=>{try{return JSON.parse(localStorage.getItem(UK)||'[]')}catch(e){return[]}};
+function nbReset(){NB.cnt=[new Map(),new Map()];NB.tot=[0,0];NB.docs=[0,0];NB.V=0}
+nbTrain(UD());
+/* ---------- Rules ---------- */
+const RISK=[['Payment',35,1,/(registration|security|refundable|processing|training|joining|application|kit|uniform)\s*(fee|fees|charges?|deposit)|pay\s+(a\s+)?(fee|deposit)|deposit\s+(of\s+)?(rs\.?|₹|\$)/i,'Upfront payment requested','Genuine employers never charge candidates.','Advance-fee scam'],
+['Payment',30,1,/gift\s*cards?|bitcoin|western union|wire\s+transfer|money\s+transfer|(cash|deposit)\s+(this\s+)?che(que|ck)|buy\s+(your\s+)?(equipment|laptop|software)|purchase\s+(equipment|laptop)/i,'Cheque / equipment purchase','Overpayment and vendor schemes are common scams.','Cheque / equipment scam'],
+['Privacy',30,1,/(send|share|provide|submit)\s+(your\s+)?(aadhaar|aadhar|pan|passport|ssn|social\s+security|bank\s+(account|details)|debit\s+card|credit\s+card|cvv|otp|pin)\b/i,'Sensitive data requested','Never share ID, bank details or OTPs before a verified offer.','Identity / data theft'],
+['Pressure',12,0,/urgent(ly)?\s+(hiring|required|need)|apply\s+(now|immediately)|limited\s+(seats|slots)|only\s+\d+\s+(seats|slots|positions)|hurry|last\s+date\s+today|accept\s+(the\s+)?offer\s+(today|immediately)/i,'Urgency or pressure','Scammers rush you so you skip verification.',''],
+['Pressure',12,0,/100%\s*(job\s*)?(guarantee|placement|selection)|guaranteed\s+(job|income|selection)/i,'Guaranteed job or income','No honest recruiter can guarantee selection.',''],
+['Content',14,0,/no\s+interview|without\s+(an\s+)?interview|direct\s+(selection|joining)|selected\s+(directly|instantly)|you\s+have\s+been\s+selected/i,'No interview / instant selection','Real hiring includes screening.',''],
+['Content',14,0,/no\s+(experience|qualification|skills?)\s*(needed|required)|anyone\s+can\s+(apply|earn)|any\s+qualification/i,'No skills needed','Low effort with high reward is unrealistic.',''],
+['Content',12,0,/(like|share|rate|subscribe)\s+(youtube|videos?|products?|apps?)|typing\s+work|copy\s*paste\s+(work|job)|task[-\s]based|ad\s+posting/i,'Task-based "earn at home" work','A frequent online job scam.','Task scam'],
+['Content',12,0,/network\s+marketing|\bmlm\b|downline|recruit\s+(others|friends)|investment\s+(plan|scheme)|passive\s+income|financial\s+freedom/i,'MLM / investment language','Not a genuine employment offer.','MLM / investment scheme'],
+['Contact',10,0,/whats\s*app|telegram|wa\.me|t\.me/i,'Hiring through WhatsApp/Telegram','Official hiring is rarely only on chat apps.',''],
+['Contact',12,0,/\b(bit\.ly|tinyurl\.com|goo\.gl|cutt\.ly|rb\.gy)\S*/i,'Shortened link','Hides the real destination.','']];
+const GOOD=[[8,/\b(responsibilit(y|ies)|requirements?|qualifications?)\b/i,'Describes responsibilities and requirements'],[6,/\b(health insurance|provident fund|gratuity|paid leave|esop|benefits)\b/i,'Mentions standard employee benefits'],[6,/\b(bachelor|b\.?tech|b\.?e\b|mba|degree|\d\+?\s*years?)\b/i,'Specific education / experience'],[6,/\b(interview\s+(rounds?|process)|technical\s+round|hr\s+round|assessment|panel)\b/i,'Describes an interview process']];
+const ADV={Payment:'Never pay money to get a job. Do not transfer anything.',Privacy:'Do not share ID, bank details or OTPs until the offer is verified in writing.',Contact:"Check the recruiter's email/link domain and find the company's official HR contact yourself.",Pressure:'Take your time. Genuine employers let you verify the offer.',Company:'Search the company on LinkedIn, Google Maps and its official website.',Content:'Ask for a detailed job description, interview process and a written offer letter.'};
+const GEN=['Verify the company through its official website.','Confirm the job using contact details you found yourself.','Report suspected scams at cybercrime.gov.in or helpline 1930 (India), or your local authority.'];
+const BADTLD=/\.(xyz|top|click|work|buzz|gq|tk|ml|cf|ga|icu|monster|rest)$/;
+const host=u=>{try{return new URL(u.includes('//')?u:'https://'+u).hostname.replace(/^www\./,'').toLowerCase()}catch(e){return''}};
+function domainChecks(hs,add){hs.filter(Boolean).forEach(h=>{
+ if(/^\d+\.\d+\.\d+\.\d+$/.test(h))add('Contact',18,0,'Link uses a raw IP address','Real companies use proper domain names.','',h);
+ if(h.includes('xn--'))add('Contact',18,0,'Punycode (look-alike) domain','May imitate a real brand with special characters.','',h);
+ if(BADTLD.test(h))add('Contact',12,0,'Suspicious domain extension','Cheap TLDs are heavily abused in scams.','',h);
+ if((h.match(/-/g)||[]).length>=2)add('Contact',8,0,'Hyphen-heavy domain','Scam domains often chain words with hyphens.','',h);
+ if((h.match(/\d/g)||[]).length>=3)add('Contact',6,0,'Many digits in domain','Unusual for official company domains.','',h)})}
+function analyze(d,quick){
+ const text=[d.title,d.desc,d.qual,d.sal,d.email,d.url].join(' '),sig=[],pos=[],rng=[];
+ const add=(c,w,crit,t,x,ty,ev)=>sig.push({c,w,crit,t,x,ty,ev});
+ RISK.forEach(r=>{const m=text.match(r[3]);if(m){add(r[0],r[1],r[2],r[4],r[5],r[6],m[0].trim().slice(0,60));for(const k of text.matchAll(new RegExp(r[3].source,'gi')))rng.push([k.index,k.index+k[0].length])}});
+ const site=host(d.site),ed=d.email&&d.email.includes('@')?d.email.split('@')[1].toLowerCase():'',uh=host(d.url);
+ if(d.email&&FREE.test(d.email))add('Contact',16,0,'Recruiter uses a free email domain','Companies normally use an official domain.','',d.email);
+ else if(ed&&site&&!(ed.endsWith(site)||site.endsWith(ed)))add('Contact',14,0,'Email domain differs from company website','Check the recruiter really belongs to this company.','',d.email);
+ if(uh&&site&&!(uh.endsWith(site)||site.endsWith(uh)))add('Contact',14,0,'Application link domain differs from company website','You may be sent to a look-alike site.','',uh);
+ domainChecks([ed&&!FREE.test(d.email)?ed:'',site,uh],add);
+ if(!quick){if(!d.company)add('Company',14,0,'Company name missing','Anonymous employers are hard to verify.','');
+  if(!site&&!d.email)add('Company',8,0,'No website or recruiter contact','Verifiable details are missing.','')}
+ const n=(d.sal.replace(/,/g,'').match(/\d+(\.\d+)?/g)||[]).map(Number),mx=Math.max(0,...n),s=d.sal.toLowerCase();
+ if((/day|daily/.test(s)&&mx>=2000)||(/week/.test(s)&&mx>=10000)||(/hour/.test(s)&&mx>=2000))add('Content',16,0,'Salary looks unrealistic','Pay is far above typical for this kind of role.','',d.sal);
+ if(!quick&&d.desc.trim().split(/\s+/).length<30)add('Content',10,0,'Very short or vague description','Genuine ads describe duties clearly.','');
+ const L=d.desc.replace(/[^A-Za-z]/g,'');if(L.length>40&&L.replace(/[^A-Z]/g,'').length/L.length>.35)add('Pressure',8,0,'Excessive capital letters','Shouting style is common in spam.','');
+ if((d.desc.match(/!/g)||[]).length>=3)add('Pressure',6,0,'Too many exclamation marks','Unprofessional tone.','');
+ GOOD.forEach(g=>{if(g[1].test(text))pos.push({t:g[2],w:g[0]})});
+ if(site)pos.push({t:'Company website provided',w:6});if(ed&&!FREE.test(d.email))pos.push({t:'Recruiter uses a non-free email domain',w:6});
+ const raw=sig.reduce((a,b)=>a+b.w,0),bonus=Math.min(25,pos.reduce((a,b)=>a+b.w,0)),rule=Math.max(0,Math.min(100,Math.round(raw-bonus*(raw>50?.4:1))));
+ const ml=nbPredict([d.title,d.desc,d.qual].join(' ')),mlS=Math.round(ml.p*100);
+ let score=Math.round(.55*rule+.45*mlS);if(sig.length<2&&!sig.some(x=>x.crit))score=Math.min(score,45);score=Math.max(0,Math.min(100,score));
+ const level=score<30?'Low':score<60?'Medium':'High',pred={Low:'Likely Genuine',Medium:'Suspicious',High:'Potentially Fake'}[level];
+ sig.sort((a,b)=>b.w-a.w);const cats={};sig.forEach(x=>cats[x.c]=(cats[x.c]||0)+x.w);
+ const types=[...new Set(sig.map(x=>x.ty).filter(Boolean))];
+ const reasons=sig.slice(0,4).map(x=>x.t+': '+x.x);if(ml.terms.length&&mlS>=50)reasons.push('Words pushing the ML model toward "fraud": '+ml.terms.join(', '));
+ rng.sort((a,b)=>a[0]-b[0]);const mg=[];rng.forEach(r=>{const l=mg[mg.length-1];if(l&&r[0]<=l[1])l[1]=Math.max(l[1],r[1]);else mg.push([...r])});
+ let hl='',p=0;mg.forEach(r=>{hl+=esc(text.slice(p,r[0]))+'<mark>'+esc(text.slice(r[0],r[1]))+'</mark>';p=r[1]});hl+=esc(text.slice(p));
+ return{title:d.title||'Message',company:d.company||'(not given)',score,level,pred,rule,mlS,sig,pos,cats,types,reasons:reasons.length?reasons:['No strong scam indicators were detected.'],terms:ml.terms,
+  steps:[...new Set(sig.map(x=>x.c))].map(c=>ADV[c]).concat(GEN),date:new Date().toISOString(),hl,mltext:[d.title,d.desc,d.qual].join(' ')}}
+/* ---------- UI ---------- */
+function gauge(v,l){const a=Math.PI*v/100,x=130-100*Math.cos(a),y=130-100*Math.sin(a);return `<svg viewBox="0 0 260 150" style="width:100%;max-width:270px"><path d="M30 130A100 100 0 0 1 230 130" fill="none" stroke="var(--bd)" stroke-width="18" stroke-linecap="round"/><path d="M30 130A100 100 0 0 1 ${x} ${y}" fill="none" stroke="${COL[l]}" stroke-width="18" stroke-linecap="round"/><text x="130" y="120" text-anchor="middle" font-size="42" font-weight="700" fill="currentColor">${v}</text><text x="130" y="142" text-anchor="middle" font-size="11" fill="var(--mut)">RISK SCORE / 100</text></svg>`}
+const bar=(k,v,m,c)=>`<div style="font-size:12px;display:flex;justify-content:space-between"><span>${k}</span><span>${v}</span></div><div class="bar"><i style="width:${Math.min(100,v/m*100)}%;${c?'background:'+c:''}"></i></div>`;
+function summary(r){return `ScamShield AI report\n${r.title} @ ${r.company}\nVerdict: ${r.pred} | Risk ${r.score}/100 (${r.level}) | rules ${r.rule}, ML ${r.mlS}\nScam type: ${r.types.join(', ')||'none identified'}\nWarning signs:\n`+r.sig.map(x=>'- '+x.t).join('\n')+'\nSteps:\n'+r.steps.map(x=>'- '+x).join('\n')}
+function shareText(t){$('shareta').value=t;$('share').classList.remove('hide');try{navigator.clipboard.writeText(t)}catch(e){}}
+function show(r){const mx=Math.max(1,...Object.values(r.cats));
+ $('rbody').innerHTML=`<div class="row" style="margin:0 0 12px"><button class="btn o" onclick="go(window.__r&&window.__r.kind==='scam'?'scam':'analyze')">← Back</button><button class="btn o" onclick="window.print()">🖨 Print</button><button class="btn o" onclick="go('dash');shareText(window.__s)">📋 Copy summary</button></div>
+ <div class="g2 r" style="grid-template-columns:1fr 1.6fr"><div class="card c">${gauge(r.score,r.level)}<h2 style="color:${COL[r.level]};margin:4px 0">${r.pred}</h2><span class="badge" style="background:${COL[r.level]}">${r.level} risk</span>
+ <div style="margin-top:12px;text-align:left">${bar('Rule engine',r.rule,100)}${bar('ML model',r.mlS,100,'var(--navy2)')}</div>${r.types.length?'<div style="margin-top:6px">'+r.types.map(t=>`<span class="chip">🏷 ${t}</span>`).join('')+'</div>':''}</div>
+ <div class="card"><h3 style="margin-top:0">Main reasons</h3><ul>${r.reasons.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><h3>Category risk</h3>${Object.entries(r.cats).map(([k,v])=>bar(k,v,mx)).join('')||'<p style="color:var(--mut)">No risk categories triggered.</p>'}</div></div>
+${r.note?`<div class="note" style="margin:0 0 14px">${esc(r.note)}</div>`:''} ${r.hl?`<div class="card" style="margin-top:14px"><h3 style="margin-top:0">🖍️ Highlighted suspicious phrases</h3><div class="hl">${r.hl}</div></div>`:''}
+ <div class="g2 r" style="margin-top:14px"><div class="card"><h3 style="margin-top:0;color:var(--bad)">⚠ Warning signs (${r.sig.length})</h3>${r.sig.map(x=>`<div class="f"><b>${esc(x.t)}</b>${x.ev?` <code>${esc(x.ev)}</code>`:''}<small>${esc(x.x)}</small></div>`).join('')||'<p style="color:var(--mut)">None detected.</p>'}</div>
+ <div class="card"><h3 style="margin-top:0;color:var(--ok)">✓ Positive indicators</h3>${r.pos.map(x=>`<div class="f g">${esc(x.t)}</div>`).join('')||'<p style="color:var(--mut)">None found.</p>'}</div></div>
+ <div class="card" style="margin-top:14px"><h3 style="margin-top:0">🛡️ Recommended safety steps</h3><ol>${r.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>
+ <div class="card" style="margin-top:14px"><b>🎓 Teach the model</b><p style="margin:4px 0 8px;color:var(--mut);font-size:13px">Think the verdict is wrong? Label this posting and the ML model learns from it. Stored only in this browser, only when you click.</p><div class="row" style="margin:0"><button class="btn o s" onclick="teach(1)">🚩 This is a scam</button><button class="btn o s" onclick="teach(0)">✅ This is genuine</button></div><p id="tmsg" style="font-size:13px;margin:8px 0 0"></p></div><div class="note"><b>How the score works:</b> Risk = 55% rule-engine score + 45% Naive Bayes ML score. One weak sign alone is capped at 45. The ML model is trained on a synthetic demo dataset, so this is a heuristic risk indicator, <b>not</b> a calibrated or verified probability of fraud.</div>`;
+ window.__s=summary(r);window.__r=r;go('result')}
+const H=()=>{try{return JSON.parse(localStorage.getItem('jsai_h2')||'[]')}catch(e){return[]}},SH=h=>{try{localStorage.setItem('jsai_h2',JSON.stringify(h))}catch(e){}};
+function dash(){const h=H(),c={Low:0,Medium:0,High:0};h.forEach(x=>c[x.level]++);const avg=h.length?Math.round(h.reduce((a,b)=>a+b.score,0)/h.length):0,last=h.slice(0,12).reverse();
+ $('dbody').innerHTML=`<div class="g4"><div class="card stat"><b>${h.length}</b>analyzed</div><div class="card stat"><b style="color:var(--bad)">${c.High}</b>high risk</div><div class="card stat"><b style="color:var(--warn)">${c.Medium}</b>suspicious</div><div class="card stat"><b style="color:var(--ok)">${c.Low}</b>low risk · avg ${avg}</div></div>
+ ${last.length?`<div class="card" style="margin-top:14px"><b>Recent risk scores</b><svg viewBox="0 0 300 90" style="width:100%;height:110px">${last.map((x,i)=>`<rect x="${8+i*24}" y="${82-x.score*.75}" width="18" height="${x.score*.75}" rx="3" fill="${COL[x.level]}"><title>${esc(x.title)}: ${x.score}</title></rect>`).join('')}</svg></div>`:''}
+ <div style="margin-top:14px">${h.length?h.map(x=>`<div class="card hi" style="margin-bottom:10px"><div><b>${x.kind==='scam'?'💬':'💼'} ${esc(x.title)}</b><div style="font-size:12px;color:var(--mut)">${esc(x.company)} · ${new Date(x.date).toLocaleString()}</div></div><div><span style="margin-right:8px">${x.pred} · <b>${x.score}</b></span><span class="badge" style="background:${COL[x.level]}">${x.level}</span> <button class="btn o s" onclick="vw('${x.id}')">View</button><button class="btn d" onclick="dl('${x.id}')">Delete</button></div></div>`).join(''):'<p style="color:var(--mut)">No analyses yet.</p>'}</div>
+ ${h.length?`<div class="row"><button class="btn o" onclick="exp()">⬇ Export CSV</button><button class="btn d" onclick="if(confirm('Delete all history?')){SH([]);dash()}">Clear all</button></div>`:''}
+ <p class="note">History lives only in this browser. Raw job text is never stored.</p>`}
+const vw=id=>{const x=H().find(h=>h.id===id);if(x)show(x)},dl=id=>{SH(H().filter(h=>h.id!==id));dash()};
+const exp=()=>shareText('title,company,prediction,risk,level,date\n'+H().map(x=>[x.title,x.company,x.pred,x.score,x.level,x.date].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n'));
+function model0(){const m=MET,cn={};DS.forEach(()=>0);
+ $('mbody').innerHTML=`<h2>Machine-Learning Model</h2><div class="card"><p><b>Algorithm:</b> Multinomial Naive Bayes · unigram + bigram features · Laplace smoothing · trained live in your browser.</p><p><b>Data:</b> ${DS.length} synthetic job postings (${DS.filter(x=>x[1]).length} fraudulent, ${DS.filter(x=>!x[1]).length} genuine) generated by <code>gen_data.py</code>. Split: ${train.length} train / ${test.length} test (every 5th row held out).</p></div>
+ <div class="g4" style="margin-top:14px"><div class="card stat"><b>${(m.acc*100).toFixed(1)}%</b>accuracy</div><div class="card stat"><b>${(m.pr*100).toFixed(1)}%</b>precision</div><div class="card stat"><b>${(m.rc*100).toFixed(1)}%</b>recall</div><div class="card stat"><b>${(m.f1*100).toFixed(1)}%</b>F1</div></div>
+ <div class="card" style="margin-top:14px"><b>Confusion matrix (test set)</b><div class="cm" style="margin-top:8px"><span></span><b>Pred genuine</b><b>Pred fake</b><b>Actual genuine</b><div>${m.tn}</div><div>${m.fp}</div><b>Actual fake</b><div>${m.fn}</div><div>${m.tp}</div></div></div>
+ <div class="note"><b>Important:</b> these scores come from synthetic, template-written data, so they are far higher than any real-world result. They only prove the pipeline works. For genuine evaluation, train on the real EMSCAD dataset using the Python backend.</div><div class="card" style="margin-top:14px"><b>🎓 Examples you taught the model:</b> ${UD().length} <button class="btn d s" onclick="clearUser()">Reset</button></div>`}
+const TY=[['💸 Advance-fee scam','You are asked to pay a registration, training or security fee.'],['🪪 Identity / data theft','Asks for Aadhaar, PAN, bank details or an OTP.'],['🧾 Cheque / equipment scam','Sends a cheque and asks you to buy equipment or wire money back.'],['📱 Task scam','Easy "like and rate" tasks with small early payouts, then a deposit.'],['🔗 MLM / investment','Income depends on recruiting others or investing money.'],['🌐 Fake career sites','Look-alike domains, free emails and shortened links.'],['🎣 Phishing / fake KYC','A message says your account will be blocked unless you click a link.'],['📲 UPI / QR refund trick','You are told to scan a QR or enter a PIN to receive money. You never need to.'],['👮 Digital arrest','Callers posing as police or CBI claim a case against you. No agency does this.'],['🏦 Predatory loan apps','Instant loans that steal contacts and photos, then harass you.']];
+$('types').innerHTML=TY.map(t=>`<div class="card"><b>${t[0]}</b><p style="margin:4px 0 0;color:var(--mut)">${t[1]}</p></div>`).join('');
+let qs=0,qn=0,qc=null;
+function quiz(){qc=SAMPLES[Math.floor(Math.random()*SAMPLES.length)];$('quiz').innerHTML=`<p style="color:var(--mut);margin-top:0">Score: ${qs}/${qn}</p><div class="f" style="border-color:var(--navy2)"><b>${esc(qc.title)}</b> · ${esc(qc.company||'(no company)')}<small>${esc(qc.email||'no email')} · ${esc(qc.sal)}</small>${esc(qc.desc)}</div><div class="row"><button class="btn" onclick="ans(0)">✅ Genuine</button><button class="btn" onclick="ans(1)">🚩 Scam</button></div>`}
+function ans(g){qn++;const ok=g===qc.label;if(ok)qs++;const r=analyze(qc);$('quiz').innerHTML=`<p><b>${ok?'✅ Correct!':'❌ Not quite.'}</b> This was <b>${qc.label?'a scam ('+qc.scam_type.replace('_',' ')+')':'genuine'}</b>. ScamShield rated it <b style="color:${COL[r.level]}">${r.pred} (${r.score})</b>.</p><ul>${r.sig.slice(0,4).map(x=>`<li>${esc(x.t)}</li>`).join('')||'<li>No warning signs found.</li>'}</ul><div class="row"><button class="btn t" onclick="quiz()">Next →</button></div>`}
+const ids=['title','company','site','email','desc','qual','sal','type','loc','url'];let quick=false;
+$('sel').innerHTML='<option value="">— choose —</option>'+SAMPLES.map((s,i)=>`<option value="${i}">${s.label?'🚩':'✅'} ${esc(s.title)} (${s.label?s.scam_type.replace('_',' '):'genuine'})</option>`).join('');
+const load=s=>{ids.forEach(i=>$(i).value=s[i]||(i==='type'?'Full-time':''))};
+$('sel').onchange=e=>{if(e.target.value!=='')load(SAMPLES[e.target.value])};$('smp').onclick=()=>load(SAMPLES[Math.floor(Math.random()*SAMPLES.length)]);
+function mode(q){quick=q;document.querySelectorAll('.q').forEach(e=>e.classList.toggle('hide',q));$('dl').textContent=q?'Paste the message or ad *':'Job Description / Recruitment Message *';$('tf').className='btn '+(q?'o':'t');$('tq').className='btn '+(q?'t':'o')}
+$('tf').onclick=()=>mode(false);$('tq').onclick=()=>mode(true);
+$('go').onclick=()=>{const d=Object.fromEntries(ids.map(i=>[i,$(i).value.trim()]));let ok=true;['title','desc','email'].forEach(k=>$('e_'+k).textContent='');$('toast').innerHTML='';
+ if(!quick&&d.title.length<2){$('e_title').textContent='Job title is required.';ok=false}
+ if(d.desc.length<20){$('e_desc').textContent='Please paste at least 20 characters.';ok=false}
+ if(!quick&&d.email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)){$('e_email').textContent='Enter a valid email address.';ok=false}
+ if(!ok){$('toast').innerHTML='<div class="toast">Please fix the highlighted fields.</div>';return}
+ if(quick)Object.keys(d).forEach(k=>{if(k!=='desc')d[k]=''});
+ const r=analyze(d,quick);r.id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);const sv={...r};delete sv.hl;delete sv.mltext;SH([sv,...H()].slice(0,100));show(r)};
+$('clr').onclick=()=>{ids.forEach(i=>$(i).value=i==='type'?'Full-time':'');['title','desc','email'].forEach(k=>$('e_'+k).textContent='');$('toast').innerHTML='';$('sel').value=''};
+function go(p){['home','analyze','scam','result','tools','dash','model','learn'].forEach(s=>$(s).classList.toggle('hide',s!==p));document.querySelectorAll('nav button[data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p===p||(p==='result'&&b.dataset.p==='analyze')));
+ if(p==='dash'){$('share').classList.add('hide');dash()}if(p==='model')model();if(p==='learn'&&!qc)quiz();window.scrollTo(0,0)}
+document.querySelectorAll('nav button[data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));
+const qa=t=>analyze({title:'',company:'',site:'',email:'',desc:t,qual:'',sal:'',type:'',loc:'',url:''},true);
+function teach(y){const r=window.__r;if(!r||!r.mltext){$('tmsg').textContent='Open a fresh analysis (not from history) to teach the model.';return}const sc=r.kind==='scam',u=sc?UDS():UD();u.push([r.mltext,y]);try{localStorage.setItem(sc?UKS:UK,JSON.stringify(u.slice(-200)))}catch(e){}(sc?SM.train:nbTrain)([[r.mltext,y]]);$('tmsg').textContent='✓ Learned. The model has now seen '+u.length+' of your examples. Analyze again to see the effect.'}
+function clearUser(){try{localStorage.removeItem(UK);localStorage.removeItem(UKS)}catch(e){}nbReset();nbTrain(train);SM.reset();SM.train(strain);model()}
+function tt(k){['cmp','bat','ver','rep'].forEach(x=>{$('tp-'+x).classList.toggle('hide',x!==k);$('tb-'+x).className='btn '+(x===k?'t':'o')})}
+function cmp(){const a=$('ca').value.trim(),b=$('cb').value.trim();if(a.length<20||b.length<20){$('cout').innerHTML='<div class="toast">Paste both postings (20+ characters each).</div>';return}
+ const A=qa(a),B=qa(b),col=(r,n)=>`<div class="card c"><b>Posting ${n}</b>${gauge(r.score,r.level)}<h3 style="color:${COL[r.level]};margin:0">${r.pred}</h3><div>${r.types.map(t=>`<span class="chip">🏷 ${t}</span>`).join('')}</div><div style="text-align:left;margin-top:8px">${r.sig.slice(0,5).map(x=>`<div class="f"><b>${esc(x.t)}</b></div>`).join('')||'<small>No warning signs.</small>'}</div></div>`;
+ $('cout').innerHTML=`<div class="g2 r">${col(A,'A')}${col(B,'B')}</div><p class="c"><b>${A.score===B.score?'Both postings have the same risk score.':'Posting '+(A.score<B.score?'A':'B')+' looks safer ('+Math.min(A.score,B.score)+' vs '+Math.max(A.score,B.score)+').'}</b></p>`}
+const cmpDemo=()=>{$('ca').value=SAMPLES[6].desc;$('cb').value=SAMPLES[0].desc};
+const batDemo=()=>{$('bt').value=SAMPLES.map(s=>s.desc).join('\n---\n')};
+function batch(){const items=$('bt').value.split(/\n\s*-{3,}\s*\n/).map(x=>x.trim()).filter(x=>x.length>=20).slice(0,25);if(!items.length){$('bout').innerHTML='<div class="toast">Paste postings separated by a line of ---</div>';return}
+ const rs=items.map(qa);$('bout').innerHTML='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><tr><th>#</th><th>Preview</th><th>Verdict</th><th>Score</th><th>Type</th></tr>'+rs.map((r,i)=>`<tr style="border-top:1px solid var(--bd)"><td>${i+1}</td><td>${esc(items[i].slice(0,60))}…</td><td><span class="badge" style="background:${COL[r.level]}">${r.pred}</span></td><td>${r.score}</td><td>${esc(r.types.join(', ')||'-')}</td></tr>`).join('')+`</table></div><p style="color:var(--mut)">${rs.filter(r=>r.level==='High').length} of ${rs.length} look potentially fake.</p>`}
+const VC=['Official company website exists and matches the offer','Company has a LinkedIn page with real employees','Recruiter email uses the company’s own domain','Job is listed on the official careers page','No payment or deposit was requested','Formal interview process and a written offer letter','Company address and phone number are verifiable','Reviews exist on Glassdoor / AmbitionBox / Google','Recruiter has a verifiable LinkedIn profile','You confirmed the job by calling the company HR yourself'];
+$('vlist').innerHTML=VC.map(t=>`<label style="display:flex;gap:10px;align-items:center;text-transform:none;font-size:14px;color:var(--tx);margin:8px 0"><input type="checkbox" style="width:auto;margin:0" onchange="vcalc()">${t}</label>`).join('');
+function vcalc(){const n=document.querySelectorAll('#vlist input:checked').length,v=n>=8?['Well verified','var(--ok)','Good signs. Still never pay money to get a job.']:n>=5?['Partly verified','var(--warn)','Keep checking the unticked points before sharing documents.']:['Not enough verification','var(--bad)','Do not pay or share personal documents until more points are confirmed.'];$('vres').innerHTML=`<b style="font-size:20px;color:${v[1]}">${v[0]} · ${n}/10</b><div class="bar"><i style="width:${n*10}%;background:${v[1]}"></i></div><span style="color:var(--mut)">${v[2]}</span>`}
+vcalc();
+function rep(){const v=i=>$(i).value.trim()||'[not provided]';$('rout').value=`To,\nThe Cyber Crime Cell / National Cyber Crime Reporting Portal (cybercrime.gov.in)\n\nSubject: Complaint regarding a fake job offer / online job fraud\n\nI, ${v('rn')}, wish to report a suspected fake job offer.\n\nCompany / recruiter: ${v('rc')}\nContact details used by the fraudster: ${v('rt')}\nPlatform where I found the offer: ${v('rp')}\nDate: ${v('rd')}\nAmount paid / data shared: ${v('ra')}\n\nWhat happened:\n${v('rx')}\n\nI have kept screenshots, payment receipts and chat messages and can provide them as evidence. I request you to register my complaint and take action.\n\nSincerely,\n${v('rn')}`}
+/* ---------- Scam message detector ---------- */
+function mkNB(){const m={cnt:[new Map(),new Map()],tot:[0,0],docs:[0,0],V:0};
+ m.train=rows=>{rows.forEach(([t,y])=>{m.docs[y]++;tok(t).forEach(w=>{m.cnt[y].set(w,(m.cnt[y].get(w)||0)+1);m.tot[y]++})});m.V=new Set([...m.cnt[0].keys(),...m.cnt[1].keys()]).size};
+ m.reset=()=>{m.cnt=[new Map(),new Map()];m.tot=[0,0];m.docs=[0,0];m.V=0};
+ m.predict=t=>{const ws=tok(t),L=(w,y)=>Math.log(((m.cnt[y].get(w)||0)+1)/(m.tot[y]+m.V));let z=Math.log((m.docs[1]+1)/(m.docs[0]+1));const c=[];ws.forEach(w=>{const d=L(w,1)-L(w,0);z+=d;c.push([d,w])});c.sort((a,b)=>b[0]-a[0]);return{p:1/(1+Math.exp(-z/6)),terms:c.filter(x=>x[0]>.8).slice(0,6).map(x=>x[1].replace('_',' '))}};return m}
+const SM=mkNB(),UKS='jsai_user_s',UDS=()=>{try{return JSON.parse(localStorage.getItem(UKS)||'[]')}catch(e){return[]}};
+const strain=SDS.filter((_,i)=>i%5),stest=SDS.filter((_,i)=>!(i%5));SM.train(strain);
+const SMET=(()=>{let tp=0,fp=0,fn=0,tn=0;stest.forEach(([t,y])=>{const p=SM.predict(t).p>=.5?1:0;if(y&&p)tp++;else if(!y&&p)fp++;else if(y&&!p)fn++;else tn++});const pr=tp/(tp+fp||1),rc=tp/(tp+fn||1);return{tp,fp,fn,tn,pr,rc,f1:2*pr*rc/(pr+rc||1),acc:(tp+tn)/stest.length}})();
+SM.train(UDS());SR.risk.concat(SR.good).forEach(r=>r.rx=new RegExp(r.re,'i'));
+const NEGR=/[^.!?\n]*\b(never|do not|don't|dont)\s+(share|disclose|give|reveal|click)[^.!?\n]*[.!?]?/gi;
+const SADV={Phishing:'Do not click links in the message. Open your bank app or type its website yourself.',Credentials:'Never share OTP, PIN, CVV or passwords with anyone, including "bank staff".',Prize:'You cannot win contests you did not enter. Ignore and delete.',Payment:'Never pay fees to receive a prize, loan or parcel.',Investment:'Guaranteed returns do not exist. Check SEBI registration before investing.','Loan app':'Use only RBI-registered lenders. Never give apps access to contacts or photos.',Delivery:"Check delivery status only in the courier's official app.",Impersonation:'No agency arrests or interrogates anyone over a call or video chat. Hang up and call 1930.',UPI:'You never need a PIN or QR scan to receive money.','Tech support':'Do not install remote apps for strangers. Call the official support number yourself.',Emotional:'Verify by calling the person on a known number before sending money.',Pressure:'Pause. Real organisations let you verify.',Link:'Do not open shortened or unfamiliar links.'};
+const SGEN=['Do not reply, click links or call numbers in the message; use official apps and websites.','If you shared OTP/bank details or paid, call your bank immediately and report at cybercrime.gov.in or helpline 1930.'];
+function scamAnalyze(text,sender,url){
+ const full=[text,sender,url].join(' '),neu=full.replace(NEGR,m=>' '.repeat(m.length)),sig=[],pos=[],rng=[];
+ const add=(c,w,crit,t,x,ty,ev)=>sig.push({c,w,crit,t,x,ty,ev});
+ SR.risk.forEach(r=>{const m=neu.match(r.rx);if(m){add(r.cat,r.w,r.crit,r.title,r.expl,r.type,m[0].trim().slice(0,60));for(const k of neu.matchAll(new RegExp(r.re,'gi')))rng.push([k.index,k.index+k[0].length])}});
+ const hosts=[...(full.match(/https?:\/\/[^\s]+|www\.[^\s]+/gi)||[]).map(host),host(url)].filter(Boolean);
+ [...new Set(hosts)].forEach(h=>{if(/^\d+\.\d+\.\d+\.\d+$/.test(h)||h.includes('xn--')||BADTLD.test(h)||(h.match(/-/g)||[]).length>=2)add('Link',18,0,'Suspicious link domain','Odd extension, IP address, look-alike or hyphen-heavy domain.','',h)});
+ const b=full.match(new RegExp('\\b('+SR.brands+')\\b','i'));
+ if(b&&hosts.length){const k=b[1].toLowerCase().replace(/\s/g,''),bad=hosts.filter(h=>!h.includes(k));if(bad.length)add('Link',22,0,'Link does not match the brand named',"Message names '"+b[1]+"' but links to another domain.",'Phishing / bank KYC fraud',bad[0])}
+ if(sender&&FREE.test(sender))add('Link',10,0,'Sender uses a free email domain','Organisations use official domains.','',sender);
+ SR.good.forEach(g=>{if(g.rx.test(full))pos.push({t:g.title,w:g.w})});
+ const raw=sig.reduce((a,b)=>a+b.w,0),bonus=Math.min(25,pos.reduce((a,b)=>a+b.w,0)),rule=Math.max(0,Math.min(100,Math.round(raw-bonus*(raw>50?.4:1))));
+ const ml=SM.predict(text),mlS=Math.round(ml.p*100);let score=Math.round(.55*rule+.45*mlS);if(sig.length<2&&!sig.some(x=>x.crit))score=Math.min(score,45);score=Math.max(0,Math.min(100,score));
+ const level=score<30?'Low':score<60?'Medium':'High',pred={Low:'Likely Safe',Medium:'Suspicious',High:'Likely Scam'}[level];
+ sig.sort((a,b)=>b.w-a.w);const cats={};sig.forEach(x=>cats[x.c]=(cats[x.c]||0)+x.w);
+ rng.sort((a,b)=>a[0]-b[0]);const mg=[];rng.forEach(r=>{const l=mg[mg.length-1];if(l&&r[0]<=l[1])l[1]=Math.max(l[1],r[1]);else mg.push([...r])});
+ let hl='',q=0;mg.forEach(r=>{hl+=esc(full.slice(q,r[0]))+'<mark>'+esc(full.slice(r[0],r[1]))+'</mark>';q=r[1]});hl+=esc(full.slice(q));
+ const reasons=sig.slice(0,4).map(x=>x.t+': '+x.x);if(ml.terms.length&&mlS>=50)reasons.push('Words pushing the ML model toward "scam": '+ml.terms.join(', '));
+ return{kind:'scam',title:'Message scan',company:sender||'(unknown sender)',score,level,pred,rule,mlS,sig,pos,cats,types:[...new Set(sig.map(x=>x.ty).filter(Boolean))],reasons:reasons.length?reasons:['No strong scam indicators were detected.'],terms:ml.terms,
+  steps:[...new Set(sig.map(x=>x.c))].map(c=>SADV[c]).filter(Boolean).concat(SGEN),date:new Date().toISOString(),hl,mltext:text}}
+function smart(text,sender,url){const sc=scamAnalyze(text,sender,url);if(!/\b(jobs?|hiring|vacanc\w*|recruit\w*|salary|work\s+from\s+home|interview|apply|offer\s+letter|career)\b/i.test(text))return sc;
+ const j=qa(text);j.kind='job';if(j.score>sc.score+5){j.note='This message reads like a job offer, so the fake-job engine was used. (Scam-message engine score: '+sc.score+')';return j}sc.note='It also mentions a job, so it was checked as a job offer too: '+j.pred+' ('+j.score+').';return sc}
+function scamModelHTML(){const m=SMET,n=SDS.length,f=SDS.filter(x=>x[1]).length,ty={};SDS.forEach(x=>{if(x[1])ty[x[2]]=(ty[x[2]]||0)+1});
+ return `<h2 style="margin-top:30px">Scam-message model</h2><div class="card"><p><b>Algorithm:</b> Multinomial Naive Bayes (unigrams + bigrams), trained live on ${n} synthetic messages (${f} scams, ${n-f} safe) from <code>gen_scam_data.py</code>. Split ${strain.length} train / ${stest.length} test.</p>${Object.entries(ty).map(([k,v])=>`<span class="chip">${k.replace('_',' ')}: ${v}</span>`).join('')}</div>
+ <div class="g4" style="margin-top:14px"><div class="card stat"><b>${(m.acc*100).toFixed(1)}%</b>accuracy</div><div class="card stat"><b>${(m.pr*100).toFixed(1)}%</b>precision</div><div class="card stat"><b>${(m.rc*100).toFixed(1)}%</b>recall</div><div class="card stat"><b>${(m.f1*100).toFixed(1)}%</b>F1</div></div>
+ <div class="card" style="margin-top:14px"><b>Confusion matrix</b><div class="cm" style="margin-top:8px"><span></span><b>Pred safe</b><b>Pred scam</b><b>Actual safe</b><div>${m.tn}</div><div>${m.fp}</div><b>Actual scam</b><div>${m.fn}</div><div>${m.tp}</div></div></div><div class="note">Scores come from template-written synthetic messages and are far higher than real-world results. Retrain on real messages with the Python backend (<code>train_scam.py</code>).</div>`}
+function model(){model0();$('mbody').innerHTML+=scamModelHTML()}
+$('ssel').innerHTML='<option value="">— choose a sample —</option>'+SSAMPLES.map((x,i)=>`<option value="${i}">${x.label?'🚩':'✅'} ${x.type.replace('_',' ')}</option>`).join('');
+const sload=x=>{$('sm_text').value=x.text;$('sm_sender').value='';$('sm_url').value=''};
+$('ssel').onchange=e=>{if(e.target.value!=='')sload(SSAMPLES[e.target.value])};$('srnd').onclick=()=>sload(SSAMPLES[Math.floor(Math.random()*SSAMPLES.length)]);
+$('sclr').onclick=()=>{['sm_text','sm_sender','sm_url'].forEach(i=>$(i).value='');$('se_text').textContent='';$('ssel').value=''};
+$('sgo').onclick=()=>{const t=$('sm_text').value.trim();$('se_text').textContent='';if(t.length<10){$('se_text').textContent='Paste at least 10 characters of the message.';return}
+ const r=smart(t,$('sm_sender').value.trim(),$('sm_url').value.trim());r.id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);const sv={...r};delete sv.hl;delete sv.mltext;SH([sv,...H()].slice(0,100));show(r)};
+$('th').onclick=()=>{const r=document.documentElement;r.dataset.theme=getComputedStyle(r).getPropertyValue('--bg').trim()==='#0a1226'?'light':'dark'};
+</script></body></html>
